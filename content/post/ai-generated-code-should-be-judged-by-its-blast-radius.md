@@ -1,4 +1,5 @@
--title: "AI-Generated Code Should Be Judged by Its Blast Radius"
+---
+title: "AI-Generated Code Should Be Judged by Its Blast Radius"
 date: 2026-09-11T03:00:00+00:00
 lastmod: 2026-09-15
 slug: ai-generated-code-should-be-judged-by-its-blast-radius
