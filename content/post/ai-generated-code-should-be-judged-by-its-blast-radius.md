@@ -5,21 +5,11 @@ lastmod: 2026-09-12
 slug: ai-generated-code-should-be-judged-by-its-blast-radius
 tags: ["ai-assisted-coding", "software-engineering", "agents", "code-review", "production-systems"]
 description: "When AI generates code faster than teams can review it, quality depends on risk, clear ownership, independent tests, and a review queue that has limits."
----
+--
 
-Imagine a team of six receiving 30 artificial intelligence (AI) generated pull requests (PRs) a day. Some touch thousands of lines. One changes authorization behavior and then replaces the relevant dependency with a mock in its tests. The test suite passes. The reviewers are exhausted.
+My thought on AI assisted coding is that generation should move at the pace the team can responsibly verify. 
 
-What should the team do next?
-
-I would start by questioning what the organization is calling progress. If management rewards code volume while leaving review capacity unchanged, it is encouraging work to accumulate at the point where someone must establish whether the changes are correct. Asking reviewers to work faster does little to resolve that imbalance.
-
-My view is that generation should move at the pace the team can responsibly verify. Producing a change and establishing that the change belongs in a system require different kinds of work. A tool that accelerates the first can still leave the second more expensive.
-
-The review queue makes that difference visible.
-
-## The standard should follow the blast radius
-
-I can write a script, run it once, inspect the output, and delete it before lunch. I can also write a service that handles customer data through an application programming interface (API) and remains in production for five years.
+I can write a script, run it once, inspect the output, and delete it before lunch. I can also write a service that handles customer data through an API and remains in production for five years.
 
 The verification these programs deserve depends on what can happen when they fail.
 
@@ -27,38 +17,17 @@ I find **blast radius** useful here. How far can a failure travel, and what sits
 
 | Dimension | Question |
 | --- | --- |
-| Impact | What happens to users, data, money, or safety if the code is wrong? |
+| Impact | What happens to users, data, bottomline, and  safety if the code is wrong? |
 | Exposure | How many people or systems can encounter the failure? |
 | Reversibility | How quickly can we detect the effect and undo it? |
 | Lifetime | How long will the code remain in use, and how often will it change? |
 
-A temporary experiment with isolated data may justify inspecting its result and moving on. A production service needs evidence about its interfaces and failure behavior, along with a maintenance path. Changes involving sensitive data or irreversible actions deserve closer examination and explicit ownership.
-
-Repository labels do not settle this. An internal script connected to payroll can have a larger blast radius than a public page. And code expected to live for years will encounter conditions that its original tests did not anticipate.
-
-The difficult part is applying that standard when submissions exceed the team's capacity. I would treat reviewability as a condition of submission, with the required evidence proportional to the consequences of getting the change wrong.
-
-## Thirty PRs a day is a capacity decision
-
-Consider an illustrative calculation. If each of 30 PRs requires 30 minutes of review, the queue consumes 15 engineer-hours a day. Split evenly across six people, that is two and a half hours each, before revisions, interruptions, or their own engineering work. Those assumed review times could be far too low for changes involving unfamiliar domains.
-
-As arrivals exceed completions, unfinished work accumulates. Faster generation then increases waiting time unless the team reduces unnecessary submissions or expands its ability to verify them.
-
-Human review was a constraint long before large language models (LLMs). Teams have always had to reconcile local changes with shared requirements. Management has also long rewarded visible feature work while underfunding maintenance. Agents can amplify those incentives by making a large patch cheap to produce.
-
-So I would stop treating the review queue as an individual productivity problem. The team needs an explicit agreement about how much work it can accept and what must happen before that work arrives.
-
-The objective should be accepted, maintainable behavior. Counting generated lines or opened PRs measures activity without establishing that the system improved.
-
-## The expensive failure is losing understanding
-
-Technical debt is only part of the cost. A team can lose the ability to explain what its software does.
+A temporary experiment with isolated data may justify inspecting its result and moving on. A production service needs evidence about its interfaces and failure behavior, along with a maintenance path. Changes involving sensitive data or irreversible actions deserve closer examination and explicit ownership. And if we skip that technical debt is only part of the cost. A team can lose the ability to explain what its software does.
 
 An agent may generate 1,000 lines where an engineer familiar with the system would reuse an existing function and add 50. The larger implementation can satisfy every supplied test while introducing dependencies and assumptions nobody needed.
 
 Specifications rarely include all the reasons a codebase looks the way it does. Some constraints live in documentation. Others live in incident history or in an engineer's memory of why a simpler-looking approach failed.
 
-I would direct review effort toward places where missing context can conceal a consequential mistake:
 
 | Pattern to examine | What the reviewer has to establish |
 | --- | --- |
@@ -69,9 +38,7 @@ I would direct review effort toward places where missing context can conceal a c
 | Files scattered across unrelated modules | Whether the change respects ownership and dependency direction |
 | Broad data retrieval and repeated fetching | Whether the implementation has acceptable cost under realistic use |
 
-These checks follow from the behavior the system needs to preserve. Their priority should depend on the change's blast radius and the team's own defect history.
-
-A reviewer who cannot explain the intended behavior cannot reliably assess the implementation. The submitting developer should supply that explanation before asking someone else to reconstruct it.
+These checks follow from the behavior the system needs to preserve. Their priority should depend on the change's blast radius and the team's own defect history.A reviewer who cannot explain the intended behavior cannot reliably assess the implementation. The submitting developer should supply that explanation before asking someone else to reconstruct it.
 
 ## Make the author responsible for review readiness
 
