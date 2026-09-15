@@ -5,7 +5,7 @@ lastmod: 2026-09-15
 slug: ai-generated-code-should-be-judged-by-its-blast-radius
 tags: ["ai-assisted-coding", "software-engineering", "agents", "code-review", "production-systems"]
 description: "When AI generates code faster than teams can review it, quality depends on risk, clear ownership, independent tests, and a review queue that has limits."
---
+---
 
 My thought on AI assisted coding is that generation should move at the pace the team can responsibly verify. 
 
