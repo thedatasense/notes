@@ -1,7 +1,7 @@
 ---
 title: "AI-Generated Code Should Be Judged by Its Blast Radius"
 date: 2026-09-11T03:00:00+00:00
-lastmod: 2026-09-12
+lastmod: 2026-09-15
 slug: ai-generated-code-should-be-judged-by-its-blast-radius
 tags: ["ai-assisted-coding", "software-engineering", "agents", "code-review", "production-systems"]
 description: "When AI generates code faster than teams can review it, quality depends on risk, clear ownership, independent tests, and a review queue that has limits."
@@ -124,6 +124,22 @@ Builder and critic loops need a stopping rule. Repeated passes may uncover defec
 Specialized reviewers can be useful when their responsibilities are explicit. A security reviewer and a performance reviewer should receive the context each needs, with a human assessing unresolved risks. Adding agents without defining their task often multiplies commentary.
 
 I would judge an automated reviewer by whether it improves defect detection or reduces review effort on the team's own changes. Count the consequential mistakes it finds, but also the time spent dismissing false alarms. A long review comment is easy to produce.
+
+## A hybrid architecture for LLM review
+
+One reason I find Open Code Review worth paying attention to is that it does not pretend a Large Language Model (LLM) should control the whole review loop. It treats review as two different jobs. Some parts need hard guarantees. Others need judgment. That split fits the blast-radius lens better than a generic critic agent that simply talks longer.
+
+When a change touches many files, I do not want the reviewer deciding halfway through that a few paths are probably safe to ignore. Open Code Review uses deterministic file gates, stable bundling of related files, path-specific rules, and a final pass that tries to catch wrong comments before they reach a developer. The LLM is still doing the part that needs interpretation, but the scaffolding around it is engineered so coverage and comment placement do not drift with prompt phrasing.
+
+| What must be reliable | How Open Code Review handles it |
+| --- | --- |
+| File coverage and scope | Deterministic include, exclude, and size gates run the same way in preview and review |
+| Context for judgment | Bundled related files and per-path rules give the LLM a narrower brief |
+| Comment accuracy | Multi-step relocation and a filter pass reduce off-target or plainly wrong findings |
+
+That trade-off matters. On Alibaba's AACR-Bench, the system reportedly beats a general-purpose agent on F1, runs faster, uses far fewer tokens, and most importantly pushes precision higher even though recall is lower. I think that is a sane choice for review. False alarms consume attention that should go to high-blast-radius changes. A reviewer who must clear noise all day will trust the tool less tomorrow.
+
+It also sharpens a point I made above: agreement between models is not evidence. If two agents share the same loose process, they can miss the same file, anchor a comment to the wrong line, or repeat the same bad assumption. Independence has to be designed into the review process, not inferred from the fact that two LLMs produced similar prose.
 
 ## Git views, explanations, and documentation reduce setup time
 
