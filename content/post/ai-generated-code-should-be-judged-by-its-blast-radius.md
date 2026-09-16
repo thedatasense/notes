@@ -1,9 +1,9 @@
 ---
-title: "Generated Code Should Be Judged by Its Blast Radius"
+title: "LLM-Generated Code Should Be Judged by Its Blast Radius"
 date: 2026-09-11T03:00:00+00:00
 lastmod: 2026-09-16
 slug: ai-generated-code-should-be-judged-by-its-blast-radius
-tags: ["ai-assisted-coding", "software-engineering", "agents", "code-review", "production-systems"]
+tags: ["llm-assisted-coding", "software-engineering", "agents", "code-review", "production-systems"]
 description: "If code generation is faster than review, teams should limit output by blast radius, require author ownership, and verify independent behavior before merge."
 ---
 
@@ -53,7 +53,7 @@ Before I ask for domain review, I want this evidence:
 
 This does not ban LLM use. It sets ownership.
 
-If I find multiple major issues early, I stop review, explain the pattern, and send it back. That keeps the queue healthy.
+If I find multiple major issues early, like missing ownership context, unverified security boundaries, or unrelated edits mixed together, I stop review, explain the pattern, and send it back. That keeps the queue healthy.
 
 ## Tests need independent expectations
 
